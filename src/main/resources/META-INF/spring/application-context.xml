@@ -15,7 +15,7 @@
 
 	<context:property-placeholder location="hadoop.properties"/>
 
-    <import resource="batch-common-context.xml"/>
+	<import resource="batch-common-context.xml"/>
 
 	<hdp:configuration>
 		fs.default.name=${hd.fs}
@@ -24,28 +24,28 @@
 	<batch:job id="tweetAvroJob">
  
  		<batch:step id="load">
-            <batch:tasklet>
-                <batch:chunk
-                        reader="tweetReader"
-                        processor="tweetProcessor"
-                        writer="tweetAvroWriter"
-                        commit-interval="2000"/>
-            </batch:tasklet>
+			<batch:tasklet>
+				<batch:chunk
+						reader="tweetReader"
+						processor="tweetProcessor"
+						writer="tweetAvroWriter"
+						commit-interval="2000"/>
+			</batch:tasklet>
 		</batch:step>
 		
 	</batch:job>
 
-    <bean id="tweetReader" class="org.springframework.batch.item.file.FlatFileItemReader">
-        <property name="resource" value="file:data/nbatweets-small.txt"/>
-        <property name="lineMapper" ref="jsonLineMapper"/>
-    </bean>
-    <bean id="jsonLineMapper" class="org.springframework.batch.item.file.mapping.JsonLineMapper"/>
+	<bean id="tweetReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource" value="file:data/nbatweets-small.txt"/>
+		<property name="lineMapper" ref="jsonLineMapper"/>
+	</bean>
+	<bean id="jsonLineMapper" class="org.springframework.batch.item.file.mapping.JsonLineMapper"/>
 
-    <bean id="tweetProcessor" class="com.springdeveloper.batch.item.TweetProcessor"/>
+	<bean id="tweetProcessor" class="com.springdeveloper.batch.item.TweetProcessor"/>
 
-    <bean id="tweetAvroWriter" class="org.springframework.xd.batch.item.hadoop.DatasetItemWriter">
-        <property name="datasetOperations" ref="datasetOperations"/>
-    </bean>
+	<bean id="tweetAvroWriter" class="org.springframework.xd.batch.item.hadoop.DatasetItemWriter">
+		<property name="datasetOperations" ref="datasetOperations"/>
+	</bean>
 
 	<bean id="datasetFactory" class="org.springframework.data.hadoop.pojo.DatasetRepositoryFactory">
 		<property name="conf" ref="hadoopConfiguration"/>
