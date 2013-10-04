@@ -26,7 +26,7 @@ public class BatchApp {
 	public static void main(String[] args) throws Exception {
 		AbstractApplicationContext context = 
 				new ClassPathXmlApplicationContext("classpath:/META-INF/spring/application-context.xml");
-		log.info("Batch TweetCount Application Running");
+		log.info("Batch Tweet to Avro Application Running");
 		context.registerShutdownHook();
 
 		JobLauncher jobLauncher = context.getBean(JobLauncher.class);
@@ -35,9 +35,6 @@ public class BatchApp {
 		jobLauncher.run(
 				job,
 				new JobParametersBuilder()
-						.addString("mr.input", "/tweets/input")
-						.addString("mr.output", "/tweets/output")
-						.addString("localData", "data/nbatweets-small.txt")
 						.addDate("date", new Date()).toJobParameters());
 		context.close();
 	}
